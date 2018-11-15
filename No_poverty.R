@@ -6,22 +6,22 @@ library(dplyr)
 ## pobieram listę krajów 
 
 
-Country_list <- function{(
+Country_list <- function() {
   url1 <- 'https://unstats.un.org/SDGAPI/v1/sdg/GeoArea/List'
 read_json(url1, simplifyVector = T)
-})
+}
 
 ## pobieram dane dla okreslonego kraju
 ## trzeba ustawiac argumenty zapytania przez page, pageSize, czyli to co jest opisane w Parameters
 
-url2 <- 'https://unstats.un.org/SDGAPI/v1/sdg/Goal/Data?page=1&pageSize=1393'
-dane <- read_json(url2, simplifyVector = T)
-str(dane,1)
-ramka_z_danymi <- dane$data 
+No_poverty <- 'https://unstats.un.org/SDGAPI/v1/sdg/Goal/Data?page=1&pageSize=1393'
+dane1 <- read_json(No_poverty, simplifyVector = T)
+str(dane1,1)
+No_poverty_df <- dane1$data 
 
 # oczyszczanie dzanych 
 # dane globalne
-Goal <- ramka_z_danymi %>% select(c(geoAreaCode,geoAreaName,timePeriodStart,value,seriesDescription)) %>%
+Goal1 <- No_poverty_df %>% select(c(geoAreaCode,geoAreaName,timePeriodStart,value,seriesDescription)) %>%
   group_by(timePeriodStart,geoAreaName)
 
 
