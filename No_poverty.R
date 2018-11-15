@@ -5,11 +5,9 @@ library(tidyverse)
 library(dplyr)
 ## pobieram listę krajów 
 
+No_poverty <- function() {
 
-Country_list <- function() {
-  url1 <- 'https://unstats.un.org/SDGAPI/v1/sdg/GeoArea/List'
-read_json(url1, simplifyVector = T)
-}
+Country_list()
 
 ## pobieram dane dla okreslonego kraju
 ## trzeba ustawiac argumenty zapytania przez page, pageSize, czyli to co jest opisane w Parameters
@@ -23,6 +21,16 @@ No_poverty_df <- dane1$data
 # dane globalne
 Goal1 <- No_poverty_df %>% select(c(geoAreaCode,geoAreaName,timePeriodStart,value,seriesDescription)) %>%
   group_by(timePeriodStart,geoAreaName)
+# zmiana nazw kolumn
+colnames(Goal1) <- c("Geo_ID",
+                     "Country",
+                     "Time",
+                     "Value",
+                     "Description")
 
 
+Goal1_df <- data.frame(Goal1)
+return(Goal1_df)
+
+}
   
