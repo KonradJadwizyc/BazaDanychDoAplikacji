@@ -63,3 +63,32 @@ p <- plot_ly(a1, x = ~Time, y = ~Value, type = "scatter",mode = "line+markers" ,
 
 
 
+No_poverty1.2 <- 'https://unstats.un.org/SDGAPI/v1/sdg/Target/Data?target=1.2'
+dane2 <- read_json(No_poverty1.2, simplifyVector = T)
+No_poverty1.2_df <- dane2$data 
+
+
+No_povert1.1.1 <- "https://unstats.un.org/SDGAPI/v1/sdg/Indicator/Data?indicator=1.1.1"
+dane3 <- read_json(No_povert1.1.1, simplifyVector = T)
+No_povert1.1.1_df <- dane3$data
+
+
+
+No_poverty1.1 <- 'https://unstats.un.org/SDGAPI/v1/sdg/Target/Data?target=1.3'
+dane4 <- read_json(No_poverty1.1, simplifyVector = T)
+No_poverty1.1_df <- dane4$data 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
