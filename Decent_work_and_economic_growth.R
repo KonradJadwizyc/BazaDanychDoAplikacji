@@ -6,16 +6,15 @@ library(dplyr)
 
 Decent_work <- function() {
 
-Country_list()
   
-  ## pobieram dane dla okreslonego kraju
+  ## pobieram dane dla okreslonego celu
   ## trzeba ustawiac argumenty zapytania przez page, pageSize, czyli to co jest opisane w Parameters
   if(have_ip() == T) {
     
     
     
     tryCatch({ # w przypadku baraku internetu wywoła wyjątek
-  Decent_work <- 'https://unstats.un.org/SDGAPI/v1/sdg/Goal/Data?page=7&pageSize=1393'
+  Decent_work <- fromJSON('https://unstats.un.org/SDGAPI/v1/sdg/Target/Data?target=8.1&pageSize=4227')
     }, error = function(err) {
       
       warning("You used bad link!")
@@ -27,22 +26,12 @@ Country_list()
     warning("You lost connection to internet!")
     
   }    
-  dane <- read_json(Decent_work, simplifyVector = T)
-  str(dane,1)
-  Decent_work_df <- dane$data 
   
-  # oczyszczanie dzanych 
-  # dane globalne
-  Goal30 <- ramka_z_danymi %>% select(c(geoAreaCode,geoAreaName,timePeriodStart,value,seriesDescription)) %>%
-    group_by(timePeriodStart,geoAreaName)
+  Goal_8 <- Decent_work$data
+  Goal_8_df <- Goal_8
   
-  colnames(Goal30) <- c("Geo_ID",
-                       "Country",
-                       "Time",
-                       "Value",
-                       "Description")
+  return(Goal_8_df)
   
-  
-  Goal30_df <- data.frame(Goal30)
-  return(Goal30_df)
 }
+
+Goal_8 <- Decent_work()
