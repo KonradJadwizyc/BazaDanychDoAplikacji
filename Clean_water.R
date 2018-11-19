@@ -6,7 +6,6 @@ library(dplyr)
 
  Clear_water <- function() {
 
-Country_list()
   
   ## pobieram dane dla okreslonego kraju
   ## trzeba ustawiac argumenty zapytania przez page, pageSize, czyli to co jest opisane w Parameters
@@ -16,7 +15,7 @@ Country_list()
     
     tryCatch({ # w przypadku baraku internetu wywoła wyjątek
       
-  url2 <- 'https://unstats.un.org/SDGAPI/v1/sdg/Goal/Data?page=5&pageSize=1393'
+      water <- fromJSON('https://unstats.un.org/SDGAPI/v1/sdg/Target/Data?target=6.1&pageSize=3395')
   }, error = function(err) {
     
     warning("You used bad link!")
@@ -28,23 +27,15 @@ Country_list()
   warning("You lost connection to internet!")
   
 }    
-
-  dane <- read_json(url2, simplifyVector = T)
-  str(dane,1)
-  ramka_z_danymi <- dane$data 
   
   # oczyszczanie dzanych 
   # dane globalne
-  Goal50 <- ramka_z_danymi %>% select(c(geoAreaCode,geoAreaName,timePeriodStart,value,seriesDescription)) %>%
-    group_by(timePeriodStart,geoAreaName)
+   
+  Goal_6 <- water$data
+  Goal_6_df <- Goal_6
   
-  colnames(Goal50) <- c("Geo_ID",
-                       "Country",
-                       "Time",
-                       "Value",
-                       "Description")
+  return(Goal_6_df)
   
-  
-  Goal50_df <- data.frame(Goal50)
-  return(Goal50_df)
-}
+ }
+ 
+Goal_6 <- Clear_water()
