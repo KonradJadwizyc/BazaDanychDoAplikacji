@@ -7,16 +7,15 @@ library(dplyr)
 
 Good_health <- function() {
 
-Country_list()
+
   
-  ## pobieram dane dla okreslonego kraju
+  ## pobieram dane dla okreslonego celu 
   ## trzeba ustawiac argumenty zapytania przez page, pageSize, czyli to co jest opisane w Parameters
   if(have_ip() == T) {
     
     
-    
     tryCatch({ # w przypadku baraku internetu wywoła wyjątek
-  Good_health <- 'https://unstats.un.org/SDGAPI/v1/sdg/Goal/Data?page=3&pageSize=1393'
+  Good_health <- fromJSON('https://unstats.un.org/SDGAPI/v1/sdg/Target/Data?target=3.1&pageSize=10631')
     }, error = function(err) {
       
       warning("You used bad link!")
@@ -29,22 +28,22 @@ Country_list()
     
   }    
   
-  dane <- read_json(Good_health, simplifyVector = T)
-  str(dane,1)
-  good_health_df <- dane$data 
-  
   # oczyszczanie dzanych 
   # dane globalne
-  Goal20 <- good_health_df %>% select(c(geoAreaCode,geoAreaName,timePeriodStart,value,seriesDescription)) %>%
-    group_by(timePeriodStart,geoAreaName)
   
-  colnames(Goal20) <- c("Geo_ID",
-                       "Country",
-                       "Time",
-                       "Value",
-                       "Description")
+  # goal 3
+  Goal_3 <- Good_health$data 
+  Target_3.1 <- Goal_3 %>% select(geoAreaCode,geoAreaName,timePeriodStart,value,series,seriesDescription)
   
   
-  Goal20_df <- data.frame(Goal20)
-  return(Goal20_df)
+  colnames(Target_3.1) <- c("Geo_ID",
+                            "Country",
+                            "Time",
+                            "Value",
+                            "Description")
+  
+  return(Target_3.1)
 }
+Goal_3 <- Good_health()
+
+# do celów testowych 
