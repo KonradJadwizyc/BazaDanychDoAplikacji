@@ -49,5 +49,4 @@ Goal1_df <- data.frame(Goal1)
 return(Goal1_df)
 
 }
-
   

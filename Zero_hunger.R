@@ -9,7 +9,6 @@ Zero_hunger <- function() {
   if(have_ip() == T) {
     
     
-    
     tryCatch({ # w przypadku baraku internetu wywoła wyjątek
       
       Zero_hunger <- 'https://unstats.un.org/SDGAPI/v1/sdg/Goal/Data?page=2&pageSize=1393'
@@ -39,5 +38,13 @@ Zero_hunger <- function() {
   # dane globalne
   Goal2 <- Zero_hunger_df %>% select(c(geoAreaCode,geoAreaName,timePeriodStart,value,seriesDescription)) %>%
     group_by(timePeriodStart,geoAreaName)
+  colnames(Goal2) <- c("Geo_ID",
+                       "Country",
+                       "Time",
+                       "Value",
+                       "Description")
   
+  
+  Goal2_df <- data.frame(Goal1)
+  return(Goal2_df)
 }

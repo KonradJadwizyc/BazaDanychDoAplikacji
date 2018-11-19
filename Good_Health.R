@@ -5,21 +5,46 @@ library(dplyr)
 ## pobieram listę krajów 
 
 
-Country_list <- function{(
-  url1 <- 'https://unstats.un.org/SDGAPI/v1/sdg/GeoArea/List'
-  read_json(url1, simplifyVector = T)
-})
+Good_health <- function() {
+
+Country_list()
   
   ## pobieram dane dla okreslonego kraju
   ## trzeba ustawiac argumenty zapytania przez page, pageSize, czyli to co jest opisane w Parameters
+  if(have_ip() == T) {
+    
+    
+    
+    tryCatch({ # w przypadku baraku internetu wywoła wyjątek
+  Good_health <- 'https://unstats.un.org/SDGAPI/v1/sdg/Goal/Data?page=3&pageSize=1393'
+    }, error = function(err) {
+      
+      warning("You used bad link!")
+      
+    })
+    
+  }else{
+    
+    warning("You lost connection to internet!")
+    
+  }    
   
-  url2 <- 'https://unstats.un.org/SDGAPI/v1/sdg/Goal/Data?page=3&pageSize=1393'
-  dane <- read_json(url2, simplifyVector = T)
+  dane <- read_json(Good_health, simplifyVector = T)
   str(dane,1)
-  ramka_z_danymi <- dane$data 
+  good_health_df <- dane$data 
   
   # oczyszczanie dzanych 
   # dane globalne
-  Goal <- ramka_z_danymi %>% select(c(geoAreaCode,geoAreaName,timePeriodStart,value,seriesDescription)) %>%
+  Goal20 <- good_health_df %>% select(c(geoAreaCode,geoAreaName,timePeriodStart,value,seriesDescription)) %>%
     group_by(timePeriodStart,geoAreaName)
   
+  colnames(Goal20) <- c("Geo_ID",
+                       "Country",
+                       "Time",
+                       "Value",
+                       "Description")
+  
+  
+  Goal20_df <- data.frame(Goal20)
+  return(Goal20_df)
+}
