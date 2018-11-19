@@ -14,11 +14,9 @@ Country_list()
 ## trzeba ustawiac argumenty zapytania przez page, pageSize, czyli to co jest opisane w Parameters
   if(have_ip() == T) {
     
-    
-    
     tryCatch({ # w przypadku baraku internetu wywoła wyjątek
       
-No_poverty <- 'https://unstats.un.org/SDGAPI/v1/sdg/Goal/Data?page=1&pageSize=1393'
+No_poverty <- fromJSON("https://unstats.un.org/SDGAPI/v1/sdg/Indicator/Data?indicator=1.1.1&pageSIze=9454")
     }, error = function(err) {
       
       warning("You used bad link!")
@@ -29,61 +27,140 @@ No_poverty <- 'https://unstats.un.org/SDGAPI/v1/sdg/Goal/Data?page=1&pageSize=13
     
     warning("You lost connection to internet!")
     
-  }    
-dane1 <- read_json(No_poverty, simplifyVector = T)
-#str(dane1,1)
-No_poverty_df <- dane1$data 
+  } 
+  
+test <- No_poverty$data %>% 
+    select(geoAreaCode,geoAreaName,timePeriodStart,value,series,seriesDescription) %>% 
+    filter(series == "SI_POV_EMP1")
+  
+  # oczyszczanie dzanych 
+  # zmiana nazw kolumn
 
-# oczyszczanie dzanych 
-# dane globalne
-Goal1 <- No_poverty_df %>% select(c(geoAreaCode,geoAreaName,timePeriodStart,value,seriesDescription)) %>%
-  group_by(timePeriodStart,geoAreaName)
-# zmiana nazw kolumn
-colnames(Goal1) <- c("Geo_ID",
-                     "Country",
-                     "Time",
-                     "Value",
-                     "Description")
-
-
-Goal1_df <- data.frame(Goal1)
-return(Goal1_df)
-
+  colnames(test) <- c("Geo_ID",
+                       "Country",
+                       "Time",
+                       "Value",
+                       "Series",
+                       "Description")
+ 
+return(test)
+  
 }
 a <- No_poverty()
-# nadanie dla komurki Value wartości numerycznych
-a$Value <- as.numeric(as.character(a$Value))
-# filtrowanie zbioru kolumn country
 
-a1 <- a %>% filter(Country == c("Colombia","Greece","Uzbekistan","Canada"))
-
-# wizualizacja zbioru a1 
-p <- plot_ly(a1, x = ~Time, y = ~Value, type = "scatter",mode = "line+markers" , color = ~Country)
+Target_1.2 <- fromJSON('https://unstats.un.org/SDGAPI/v1/sdg/Target/Data?target=1.2&pageSize=732')
+Target_1.2 <- Target_1.2$data 
+Target_1.2_df <- Target_1.2 %>% select(geoAreaCode,geoAreaName,timePeriodStart,value,series,seriesDescription)
 
 
+colnames(test) <- c("Geo_ID",
+                    "Country",
+                    "Time",
+                    "Value",
+                    "Series",
+                    "Description")
+
+Target_1.1.2_df <- Target_1.1.1 %>% select(geoAreaCode,geoAreaName,timePeriodStart,value,series,seriesDescription) %>% 
+  filter(series == "SI_POV_DAY1")
+
+colnames(Target_1.1.2_df) <- c("Geo_ID",
+                               "Country",
+                               "Time",
+                               "Value",
+                               "Series",
+                               "Description")
 
 
-No_poverty1.2 <- 'https://unstats.un.org/SDGAPI/v1/sdg/Target/Data?target=1.2'
-dane2 <- read_json(No_poverty1.2, simplifyVector = T)
-No_poverty1.2_df <- dane2$data 
+Target_1.3 <- fromJSON('https://unstats.un.org/SDGAPI/v1/sdg/Target/Data?target=1.3&pageSize=2403')
+Target_1.3 <- Target_1.3$data
+Target_1.3_df <- Target_1.3  %>% select(geoAreaCode,geoAreaName,timePeriodStart,value,series,seriesDescription)
+
+colnames(Target_1.3_df) <- c("Geo_ID",
+                               "Country",
+                               "Time",
+                               "Value",
+                               "Series",
+                               "Description")
+
+target1.3.1 <- Target_1.3_df %>% filter(Series == "SI_COV_CHLD")
+target1.3.2 <- Target_1.3_df %>% filter(Series == "SI_COV_WKINJRY")
+target1.3.3 <- Target_1.3_df %>% filter(Series == "SI_COV_MATNL")
+target1.3.4 <- Target_1.3_df %>% filter(Series == "SI_COV_POOR")
+target1.3.5 <- Target_1.3_df %>% filter(Series == "SI_COV_PENSN")
+target1.3.6 <- Target_1.3_df %>% filter(Series == "SI_COV_BENFTS")
+target1.3.7 <- Target_1.3_df %>% filter(Series == "SI_COV_DISAB")
+target1.3.8 <- Target_1.3_df %>% filter(Series == "SI_COV_UEMP")
+target1.3.9 <- Target_1.3_df %>% filter(Series == "SI_COV_VULN")
+target1.3.10 <- Target_1.3_df %>% filter(Series == "SI_COV_LMKTPQ")
+target1.3.11 <- Target_1.3_df %>% filter(Series == "SI_COV_SOCASTPQ")
+target1.3.12 <- Target_1.3_df %>% filter(Series == "SI_COV_SOCINSPQ")
+target1.3.13 <- Target_1.3_df %>% filter(Series == "SI_COV_LMKT")
+target1.3.14 <- Target_1.3_df %>% filter(Series == "SI_COV_SOCAST")
+target1.3.15 <- Target_1.3_df %>% filter(Series == "SI_COV_SOCINS")
+
+# target 1.5.1 za duży zbiór 
 
 
-No_povert1.1.1 <- "https://unstats.un.org/SDGAPI/v1/sdg/Indicator/Data?indicator=1.1.1"
-dane3 <- read_json(No_povert1.1.1, simplifyVector = T)
-No_povert1.1.1_df <- dane3$data
+Target_1.5.2 <- fromJSON('https://unstats.un.org/SDGAPI/v1/sdg/Indicator/Data?indicator=1.5.2&pageSIze=36222')
+Target_1.5.2 <- Target_1.5.2$data
+Target_1.5.2_df <- Target_1.5.2 %>% select(geoAreaCode,geoAreaName,timePeriodStart,value,series,seriesDescription)
+
+colnames(Target_1.5.2_df) <- c("Geo_ID",
+                             "Country",
+                             "Time",
+                             "Value",
+                             "Series",
+                             "Description")
+
+indicator1.1.5.2a <- Target_1.5.2_df %>% filter(Series == "VC_DSR_AGLN")
+indicator1.1.5.2b <- Target_1.5.2_df %>% filter(Series == "VC_DSR_AGLH")
+indicator1.1.5.2c <- Target_1.5.2_df %>% filter(Series == "VC_DSR_GDPLS")
+indicator1.1.5.2d <- Target_1.5.2_df %>% filter(Series == "VC_DSR_LSGP")
+indicator1.1.5.2e <- Target_1.5.2_df %>% filter(Series == "VC_DSR_HOLN")
+indicator1.1.5.2f <- Target_1.5.2_df %>% filter(Series == "VC_DSR_HOLH")
+indicator1.1.5.2g <- Target_1.5.2_df %>% filter(Series == "VC_DSR_CILN")
+indicator1.1.5.2h <- Target_1.5.2_df %>% filter(Series == "VC_DSR_CHLN")
 
 
+Target_1.5.3 <- fromJSON('https://unstats.un.org/SDGAPI/v1/sdg/Indicator/Data?indicator=1.5.3&pageSIze=543')
+Target_1.5.3 <- Target_1.5.3$data 
+Target_1.5.3_df <- Target_1.5.3 %>% select(geoAreaCode,geoAreaName,timePeriodStart,value,series,seriesDescription)
 
-No_poverty1.1 <- 'https://unstats.un.org/SDGAPI/v1/sdg/Target/Data?target=1.3'
-dane4 <- read_json(No_poverty1.1, simplifyVector = T)
-No_poverty1.1_df <- dane4$data 
+colnames(Target_1.5.3_df) <- c("Geo_ID",
+                               "Country",
+                               "Time",
+                               "Value",
+                               "Series",
+                               "Description")
 
+indicator1.5.3a <- Target_1.5.3_df %>% filter(Series == "SG_DSR_LEGREG")
+indicator1.5.3b <- Target_1.5.3_df %>% filter(Series == "SG_DSR_LGRGSR")
 
+Target_1.5.4 <- fromJSON('https://unstats.un.org/SDGAPI/v1/sdg/Indicator/Data?indicator=1.5.4&pageSIze=135')
+Target_1.5.4 <- Target_1.5.4$data 
+Target_1.5.4_df <- Target_1.5.4 %>% select(geoAreaCode,geoAreaName,timePeriodStart,value,series,seriesDescription)
 
+colnames(Target_1.5.4_df) <- c("Geo_ID",
+                               "Country",
+                               "Time",
+                               "Value",
+                               "Series",
+                               "Description")
 
+indicator_1.5.4a <- Target_1.5.4_df %>% filter(Series == "SG_GOV_LOGV")
+indicator_1.5.4b <- Target_1.5.4_df %>% filter(Series == "SG_DSR_SILN")
+indicator_1.5.4c <- Target_1.5.4_df %>% filter(Series == "SG_DSR_SILS")
 
+Target_1.a <- fromJSON('https://unstats.un.org/SDGAPI/v1/sdg/Target/Data?target=1.a&pageSize=1819')
+Target_1.a <- Target_1.a$data
+Target_1.a_df <- Target_1.a %>% select(geoAreaCode,geoAreaName,timePeriodStart,value,series,seriesDescription)
 
-
+colnames(Target_1.a_df) <- c("Geo_ID",
+                               "Country",
+                               "Time",
+                               "Value",
+                               "Series",
+                               "Description")
 
 
 
