@@ -6,9 +6,9 @@ library(dplyr)
 
 Reduce_inequalities <- function() {
 
-Country_list()
+
   
-  ## pobieram dane dla okreslonego kraju
+  ## pobieram dane dla okreslonego celu
   ## trzeba ustawiac argumenty zapytania przez page, pageSize, czyli to co jest opisane w Parameters
   if(have_ip() == T) {
     
@@ -16,7 +16,7 @@ Country_list()
     
     tryCatch({ # w przypadku baraku internetu wywoła wyjątek
       
-  reduce_inequalities <- 'https://unstats.un.org/SDGAPI/v1/sdg/Goal/Data?page=9&pageSize=1393'
+  reduce_inequalities <- fromJSON('https://unstats.un.org/SDGAPI/v1/sdg/Target/Data?target=10.6&pageSize=14190')
     }, error = function(err) {
       
       warning("You used bad link!")
@@ -29,22 +29,10 @@ Country_list()
     
   }    
   
-  dane4 <- read_json(reduce_inequalities, simplifyVector = T)
-  str(dane,1)
-  reduce_inequalities_df <- dane4$data 
+  Goal_10 <- reduce_inequalities$data
+  Goal_10_df <- Goal_10
   
-  # oczyszczanie dzanych 
-  # dane globalne
-  Goal4 <- reduce_inequalities_df %>% select(c(geoAreaCode,geoAreaName,timePeriodStart,value,seriesDescription)) %>%
-    group_by(timePeriodStart,geoAreaName)
-  
-  colnames(Goal4) <- c("Geo_ID",
-                       "Country",
-                       "Time",
-                       "Value",
-                       "Description")
-  
-  
-  Goal4_df <- data.frame(Goal4)
-  return(Goal4_df)
+  return(Goal_10_df)
 }
+
+Goal_10 <- Reduce_inequalities()

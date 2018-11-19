@@ -6,9 +6,9 @@ library(dplyr)
 
 Responsible_consumption <- function() {
 
-Country_list()
 
-## pobieram dane dla okreslonego kraju
+
+
 ## trzeba ustawiac argumenty zapytania przez page, pageSize, czyli to co jest opisane w Parameters
 if(have_ip() == T) {
   
@@ -16,7 +16,7 @@ if(have_ip() == T) {
   
   tryCatch({ # w przypadku baraku internetu wywoła wyjątek
   
-  respponsible <- 'https://unstats.un.org/SDGAPI/v1/sdg/Goal/Data?page=11&pageSize=1393'
+  respponsible <- fromJSON('https://unstats.un.org/SDGAPI/v1/sdg/Target/Data?target=12.4&pageSize=841')
   }, error = function(err) {
     
     warning("You used bad link!")
@@ -29,23 +29,11 @@ if(have_ip() == T) {
   
 }    
 
-  dane <- read_json(respponsible, simplifyVector = T)
-  str(dane,1)
-  respponsible_df <- dane$data 
-  
-  # oczyszczanie dzanych 
-  # dane globalne
-  Goal21 <- respponsible_df %>% select(c(geoAreaCode,geoAreaName,timePeriodStart,value,seriesDescription)) %>%
-    group_by(timePeriodStart,geoAreaName)
-  
-  colnames(Goal21) <- c("Geo_ID",
-                       "Country",
-                       "Time",
-                       "Value",
-                       "Description")
-  
-  
-  Goal21_df <- data.frame(Goal21)
-  return(Goal21_df)
+  Goal_12 <- respponsible$data
+  Goal_12_df <- Goal_12
+ 
+  return(Goal_12_df)
 
 } 
+
+Goal_12 <- Responsible_consumption()

@@ -16,7 +16,7 @@ Country_list()
     
     tryCatch({ # w przypadku baraku internetu wywoła wyjątek
       
-  industry <- 'https://unstats.un.org/SDGAPI/v1/sdg/Goal/Data?page=8&pageSize=1393'
+  industry <- fromJSON('https://unstats.un.org/SDGAPI/v1/sdg/Target/Data?target=9.1&pageSize=1197')
     }, error = function(err) {
       
       warning("You used bad link!")
@@ -29,23 +29,11 @@ Country_list()
     
   }    
   
-  dane <- read_json(industry, simplifyVector = T)
-  str(dane,1)
-  industry_df <- dane$data 
+  Goal_9 <- industry$data
+  Goal_9_df <- Goal_9
   
-  # oczyszczanie dzanych 
-  # dane globalne
-  Goal25 <- industry_df %>% select(c(geoAreaCode,geoAreaName,timePeriodStart,value,seriesDescription)) %>%
-    group_by(timePeriodStart,geoAreaName)
-  
-  colnames(Goal25) <- c("Geo_ID",
-                       "Country",
-                       "Time",
-                       "Value",
-                       "Description")
-  
-  
-  Goal25_df <- data.frame(Goal25)
-  return(Goal25_df)
+  return(Goal_9_df)
   
 }
+
+Goal_9 <- Industry()

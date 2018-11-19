@@ -171,6 +171,8 @@ colnames(Target_1.a_df) <- c("Geo_ID",
                                "Description")
 # all good 
 
+# przykład całej bazy danych dla No_poverty 
+
 
 
 

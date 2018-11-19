@@ -6,9 +6,7 @@ library(dplyr)
 
 Partnership_for_the_goal <- function() {
 
-Country_list()
 
-## pobieram dane dla okreslonego kraju
 ## trzeba ustawiac argumenty zapytania przez page, pageSize, czyli to co jest opisane w Parameters
 if(have_ip() == T) {
   
@@ -16,7 +14,7 @@ if(have_ip() == T) {
   
   tryCatch({ # w przypadku baraku internetu wywoła wyjątek
   
-  partnership <- 'https://unstats.un.org/SDGAPI/v1/sdg/Goal/Data?page=16&pageSize=1393'
+  partnership <- fromJSON('https://unstats.un.org/SDGAPI/v1/sdg/Target/Data?target=17.2&pageSize=2432')
   }, error = function(err) {
     
     warning("You used bad link!")
@@ -28,24 +26,12 @@ if(have_ip() == T) {
   warning("You lost connection to internet!")
   
 }    
-
-  dane <- read_json(partnership, simplifyVector = T)
-  str(dane,1)
-  partnership_df <- dane$data 
   
-  # oczyszczanie dzanych 
-  # dane globalne
-  Goal16 <- partnership_df %>% select(c(geoAreaCode,geoAreaName,timePeriodStart,value,seriesDescription)) %>%
-    group_by(timePeriodStart,geoAreaName)
+  Goal_17 <- partnership$data
+  Goal_17_df <- Goal_17
   
-  colnames(Goal16) <- c("Geo_ID",
-                       "Country",
-                       "Time",
-                       "Value",
-                       "Description")
-  
-  
-  Goal16_df <- data.frame(Goal16)
-  return(Goal16_df)
+  return(Goal_17_df)
   
 }
+
+Goal_17 <- Partnership_for_the_goal()

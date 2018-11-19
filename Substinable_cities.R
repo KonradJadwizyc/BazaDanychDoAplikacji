@@ -6,7 +6,6 @@ library(dplyr)
 
 Substinable_cities <- function() {
 
-Country_list()
   
   ## pobieram dane dla okreslonego kraju
   ## trzeba ustawiac argumenty zapytania przez page, pageSize, czyli to co jest opisane w Parameters
@@ -16,7 +15,7 @@ Country_list()
     
     tryCatch({ # w przypadku baraku internetu wywoła wyjątek
       
-  substinable_cities <- 'https://unstats.un.org/SDGAPI/v1/sdg/Goal/Data?page=10&pageSize=1393'
+  substinable_cities <- fromJSON('https://unstats.un.org/SDGAPI/v1/sdg/Target/Data?target=11.6&pageSize=655')
     }, error = function(err) {
       
       warning("You used bad link!")
@@ -29,23 +28,11 @@ Country_list()
     
   }    
   
-  dane11 <- read_json(substinable_cities, simplifyVector = T)
-  str(dane11,1)
-  substinable_cities_df <- dane11$data 
+  Goal_11 <- substinable_cities$data
+  Goal_11_df <- Goal_11
   
-  # oczyszczanie dzanych 
-  # dane globalne
-  Goal26 <- substinable_cities_df %>% select(c(geoAreaCode,geoAreaName,timePeriodStart,value,seriesDescription)) %>%
-    group_by(timePeriodStart,geoAreaName)
-  
-  colnames(Goal26) <- c("Geo_ID",
-                       "Country",
-                       "Time",
-                       "Value",
-                       "Description")
-  
-  
-  Goal26_df <- data.frame(Goal26)
-  return(Goal26_df)
+  return(Goal_11_df)
   
 }
+
+Goal_11 <- Substinable_cities()

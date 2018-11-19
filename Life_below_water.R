@@ -7,9 +7,6 @@ library(dplyr)
 Life_below_water <- function() {
   
 
-Country_list()
-  
-  ## pobieram dane dla okreslonego kraju
   ## trzeba ustawiac argumenty zapytania przez page, pageSize, czyli to co jest opisane w Parameters
   if(have_ip() == T) {
     
@@ -17,7 +14,7 @@ Country_list()
     
     tryCatch({ # w przypadku baraku internetu wywoła wyjątek
       
-  life_below_water <- 'https://unstats.un.org/SDGAPI/v1/sdg/Goal/Data?page=13&pageSize=1393'
+  below_water <- fromJSON('https://unstats.un.org/SDGAPI/v1/sdg/Target/Data?target=14.5&pageSize=11685')
     }, error = function(err) {
       
       warning("You used bad link!")
@@ -30,22 +27,11 @@ Country_list()
     
   }    
   
-  dane <- read_json(life_below_water, simplifyVector = T)
-  str(dane,1)
-  life_below_water_df <- dane$data 
-  
-  # oczyszczanie dzanych 
-  # dane globalne
-  Goal22 <- life_below_water_df %>% select(c(geoAreaCode,geoAreaName,timePeriodStart,value,seriesDescription)) %>%
-    group_by(timePeriodStart,geoAreaName)
-  colnames(Goal22) <- c("Geo_ID",
-                       "Country",
-                       "Time",
-                       "Value",
-                       "Description")
-  
-  
-  Goal22_df <- data.frame(Goal22)
-  return(Goal22_df)
+  Goal_14 <- below_water$data
+  Goal_14_df <- Goal_14
+ 
+  return(Goal_14_df)
   
 }
+
+Goal_14 <- Life_below_water()
