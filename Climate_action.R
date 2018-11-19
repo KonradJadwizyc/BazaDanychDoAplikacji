@@ -6,9 +6,7 @@ library(dplyr)
 
 Climate_action <- function() {
 
-Country_list()
-  
-  ## pobieram dane dla okreslonego kraju
+
   ## trzeba ustawiac argumenty zapytania przez page, pageSize, czyli to co jest opisane w Parameters
   
   if(have_ip() == T) {
@@ -17,7 +15,7 @@ Country_list()
     
     tryCatch({ # w przypadku baraku internetu wywoła wyjątek
       
-  url2 <- 'https://unstats.un.org/SDGAPI/v1/sdg/Goal/Data?page=12&pageSize=1393'
+      Climate <- fromJSON('https://unstats.un.org/SDGAPI/v1/sdg/Target/Data?target=13.1&pageSize=2574')
     }, error = function(err) {
       
       warning("You used bad link!")
@@ -30,23 +28,11 @@ Country_list()
     
   }    
   
-  dane <- read_json(url2, simplifyVector = T)
-  str(dane,1)
-  ramka_z_danymi <- dane$data 
+  Goal_13 <- Climate$data
+  Goal_13_df <- Goal_13
   
-  # oczyszczanie dzanych 
-  # dane globalne
-  Goal40 <- ramka_z_danymi %>% select(c(geoAreaCode,geoAreaName,timePeriodStart,value,seriesDescription)) %>%
-    group_by(timePeriodStart,geoAreaName)
-  
-  colnames(Goal40) <- c("Geo_ID",
-                       "Country",
-                       "Time",
-                       "Value",
-                       "Description")
-  
-  
-  Goal40_df <- data.frame(Goal40)
-  return(Goal40_df)
+  return(Goal_13_df)
   
 }
+
+Goal_13 <- Climate_action()
