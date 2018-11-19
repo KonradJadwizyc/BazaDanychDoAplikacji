@@ -3,6 +3,7 @@
 library(jsonlite)
 library(tidyverse)
 library(dplyr)
+library(plotly)
 ## pobieram listę krajów 
 
 No_poverty <- function() {
@@ -30,7 +31,7 @@ No_poverty <- 'https://unstats.un.org/SDGAPI/v1/sdg/Goal/Data?page=1&pageSize=13
     
   }    
 dane1 <- read_json(No_poverty, simplifyVector = T)
-str(dane1,1)
+#str(dane1,1)
 No_poverty_df <- dane1$data 
 
 # oczyszczanie dzanych 
@@ -49,4 +50,16 @@ Goal1_df <- data.frame(Goal1)
 return(Goal1_df)
 
 }
-  
+a <- No_poverty()
+# nadanie dla komurki Value wartości numerycznych
+a$Value <- as.numeric(as.character(a$Value))
+# filtrowanie zbioru kolumn country
+
+a1 <- a %>% filter(Country == c("Colombia","Greece","Uzbekistan","Canada"))
+
+# wizualizacja zbioru a1 
+p <- plot_ly(a1, x = ~Time, y = ~Value, type = "scatter",mode = "line+markers" , color = ~Country)
+
+
+
+
