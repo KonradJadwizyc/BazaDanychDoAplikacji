@@ -32,7 +32,15 @@ if(have_ip() == T) {
   # dane globalne
   Goal_4 <- education$data
   
-  Goal_4_df <- Goal_4 
+  Goal_4_df <- Goal_4 %>% select(geoAreaCode,geoAreaName,timePeriodStart,value,series,seriesDescription)
+  
+  colnames(Goal_4_df) <- c("Geo_ID",
+                            "Country",
+                            "Time",
+                            "Value",
+                            "Series",
+                            "Description")
+  
   
   
   return(Goal_4_df)

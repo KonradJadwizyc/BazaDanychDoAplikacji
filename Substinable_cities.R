@@ -29,7 +29,15 @@ Substinable_cities <- function() {
   }    
   
   Goal_11 <- substinable_cities$data
-  Goal_11_df <- Goal_11
+  
+  Goal_11_df <- Goal_11 %>% select(geoAreaCode,geoAreaName,timePeriodStart,value,series,seriesDescription)
+  
+  colnames(Goal_11_df) <- c("Geo_ID",
+                            "Country",
+                            "Time",
+                            "Value",
+                            "Series",
+                            "Description")
   
   return(Goal_11_df)
   

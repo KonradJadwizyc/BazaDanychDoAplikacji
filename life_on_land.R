@@ -28,7 +28,14 @@ Life_on_land <- function() {
   }    
   
   Goal_15 <- life_no_land$data
-  Goal_15_df <- Goal_15
+  Goal_15_df <- Goal_15 %>% select(geoAreaCode,geoAreaName,timePeriodStart,value,series,seriesDescription)
+  
+  colnames(Goal_15_df) <- c("Geo_ID",
+                            "Country",
+                            "Time",
+                            "Value",
+                            "Series",
+                            "Description")
  
   return(Goal_15_df)
   

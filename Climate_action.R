@@ -29,7 +29,14 @@ Climate_action <- function() {
   }    
   
   Goal_13 <- Climate$data
-  Goal_13_df <- Goal_13
+  Goal_13_df <- Goal_13 %>% select(geoAreaCode,geoAreaName,timePeriodStart,value,series,seriesDescription)
+  
+  colnames(Goal_13_df) <- c("Geo_ID",
+                           "Country",
+                           "Time",
+                           "Value",
+                           "Series",
+                           "Description")
   
   return(Goal_13_df)
   

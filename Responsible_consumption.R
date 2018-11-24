@@ -30,7 +30,15 @@ if(have_ip() == T) {
 }    
 
   Goal_12 <- respponsible$data
-  Goal_12_df <- Goal_12
+  
+  Goal_12_df <- Goal_12 %>% select(geoAreaCode,geoAreaName,timePeriodStart,value,series,seriesDescription)
+  
+  colnames(Goal_12_df) <- c("Geo_ID",
+                            "Country",
+                            "Time",
+                            "Value",
+                            "Series",
+                            "Description")
  
   return(Goal_12_df)
 

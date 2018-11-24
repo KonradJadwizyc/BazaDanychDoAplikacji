@@ -30,7 +30,14 @@ Reduce_inequalities <- function() {
   }    
   
   Goal_10 <- reduce_inequalities$data
-  Goal_10_df <- Goal_10
+  Goal_10_df <- Goal_10 %>% select(geoAreaCode,geoAreaName,timePeriodStart,value,series,seriesDescription)
+  
+  colnames(Goal_10_df) <- c("Geo_ID",
+                           "Country",
+                           "Time",
+                           "Value",
+                           "Series",
+                           "Description")
   
   return(Goal_10_df)
 }

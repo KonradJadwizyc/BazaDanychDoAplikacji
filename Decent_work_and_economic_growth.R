@@ -28,7 +28,14 @@ Decent_work <- function() {
   }    
   
   Goal_8 <- Decent_work$data
-  Goal_8_df <- Goal_8
+  Goal_8_df <- Goal_8 %>% select(geoAreaCode,geoAreaName,timePeriodStart,value,series,seriesDescription)
+  
+  colnames(Goal_8_df) <- c("Geo_ID",
+                            "Country",
+                            "Time",
+                            "Value",
+                            "Series",
+                            "Description")
   
   return(Goal_8_df)
   

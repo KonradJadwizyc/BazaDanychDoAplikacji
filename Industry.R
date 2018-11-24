@@ -6,7 +6,7 @@ library(dplyr)
 
 Industry <- function() { 
 
-Country_list()
+
   
   ## pobieram dane dla okreslonego kraju
   ## trzeba ustawiac argumenty zapytania przez page, pageSize, czyli to co jest opisane w Parameters
@@ -30,7 +30,14 @@ Country_list()
   }    
   
   Goal_9 <- industry$data
-  Goal_9_df <- Goal_9
+  Goal_9_df <- Goal_9 %>% select(geoAreaCode,geoAreaName,timePeriodStart,value,series,seriesDescription)
+  
+  colnames(Goal_9_df) <- c("Geo_ID",
+                               "Country",
+                               "Time",
+                               "Value",
+                               "Series",
+                               "Description")
   
   return(Goal_9_df)
   

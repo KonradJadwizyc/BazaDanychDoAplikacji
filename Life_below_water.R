@@ -28,7 +28,16 @@ Life_below_water <- function() {
   }    
   
   Goal_14 <- below_water$data
-  Goal_14_df <- Goal_14
+  
+  Goal_14_df <- Goal_14 %>%  select(geoAreaCode,geoAreaName,timePeriodStart,value,series,seriesDescription)
+  
+  colnames(Goal_14_df) <- c("Geo_ID",
+                           "Country",
+                           "Time",
+                           "Value",
+                           "Series",
+                           "Description")
+  
  
   return(Goal_14_df)
   

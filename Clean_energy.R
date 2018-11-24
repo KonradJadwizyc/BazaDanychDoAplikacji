@@ -27,9 +27,14 @@ Clean_energy <- function() {
     
   }    
   Goal_7 <- energy$data
-  Goal_7_df <- Goal_7
+  Goal_7_df <- Goal_7 %>% select(geoAreaCode,geoAreaName,timePeriodStart,value,series,seriesDescription)
   
- 
+  colnames(Goal_7_df) <- c("Geo_ID",
+                           "Country",
+                           "Time",
+                           "Value",
+                           "Series",
+                           "Description")
 
   return(Goal_7_df)
   

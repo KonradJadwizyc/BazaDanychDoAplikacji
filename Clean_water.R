@@ -32,7 +32,14 @@ library(dplyr)
   # dane globalne
    
   Goal_6 <- water$data
-  Goal_6_df <- Goal_6
+  Goal_6_df <- Goal_6 %>% select(geoAreaCode,geoAreaName,timePeriodStart,value,series,seriesDescription)
+  
+  colnames(Goal_6_df) <- c("Geo_ID",
+                           "Country",
+                           "Time",
+                           "Value",
+                           "Series",
+                           "Description")
   
   return(Goal_6_df)
   

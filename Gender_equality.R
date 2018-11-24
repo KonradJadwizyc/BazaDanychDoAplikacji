@@ -32,7 +32,14 @@ Gender_equality <- function() {
   # dane globalne
   Goal_5 <- equality$data
   
-  Goal_5_df <- Goal_5 
+  Goal_5_df <- Goal_5 %>%  select(geoAreaCode,geoAreaName,timePeriodStart,value,series,seriesDescription)
+  
+  colnames(Goal_5_df) <- c("Geo_ID",
+                           "Country",
+                           "Time",
+                           "Value",
+                           "Series",
+                           "Description")
   
   
   return(Goal_5_df)
